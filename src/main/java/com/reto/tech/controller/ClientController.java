@@ -24,9 +24,14 @@ public class ClientController {
     }
 
     @PostMapping(value = "creacliente")
-    public Map getError(@RequestBody ClientDTO client) {
+    public Map createClient(@RequestBody ClientDTO client) {
         Client clientEntity = modelMapper.map(client, Client.class);
         return applicationFacade.sendClient(clientEntity);
+    }
+
+    @GetMapping(value = "kpideclientes")
+    public Map getAgeAverage() {
+        return applicationFacade.getAgeAverage();
     }
 
 }

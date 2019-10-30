@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClientService {
     private final ClientRepository clientRepository;
@@ -25,5 +27,9 @@ public class ClientService {
         }catch (Exception e){
             logger.error("Error con {},  mensaje {}", client.getName(), e.getMessage());
         }
+    }
+
+    public List<Client> getAllClient(){
+        return clientRepository.findAll();
     }
 }

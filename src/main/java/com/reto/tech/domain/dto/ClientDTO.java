@@ -1,5 +1,7 @@
 package com.reto.tech.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -9,6 +11,7 @@ public class ClientDTO {
     private String name;
     private String lastName;
     private int age;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date birthday;
 
     public String getName() {

@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,5 +43,21 @@ public class ApplicationFacade {
     }
 
 
-
+    public Map getAgeAverage() {
+        List<Client> listClient = clientService.getAllClient();
+        float sumAge = 0;
+        for(Client client: listClient){
+            sumAge += client.getAge();
+        }
+        Map map = new LinkedHashMap();
+        float average = listClient.isEmpty() ? 0 : (sumAge/listClient.size());
+        float sumAgeAverage= 0;
+        for(Client client: listClient){
+            sumAgeAverage +=  (float) Math.pow(client.getAge()-average, 2);
+        }
+        float desStandard = (float) Math.pow(sumAgeAverage/listClient.size(), 0.5);
+        map.put("Promedio de edades", average);
+        map.put("Desviación estándar de edades", desStandard);
+        return map;
+    }
 }
