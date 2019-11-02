@@ -3,15 +3,17 @@ package com.reto.tech.facade;
 
 import com.reto.tech.domain.entities.Client;
 import com.reto.tech.domain.service.ClientService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static com.reto.tech.util.DateTimeUtil.getDateClient;
+import static com.reto.tech.util.DateTimeUtil.getDateDie;
+import static com.reto.tech.util.DateTimeUtil.getDateFormat;
 
 /**
  * @author Erick Marrero
@@ -23,15 +25,13 @@ public class ApplicationFacade {
 
     private final ClientService clientService;
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     public ApplicationFacade(ClientService clientService) {
         this.clientService = clientService;
     }
 
     public Map sendClient(Client client) {
         Map map = new LinkedHashMap();
-
+        client.setBirthday(getDateClient(client.getBirthday()));
         map.put("birthday", client.getBirthday());
         map.put("nombre", client.getName());
         map.put("apellido", client.getLastName());
@@ -59,5 +59,21 @@ public class ApplicationFacade {
         map.put("Promedio de edades", average);
         map.put("Desviación estándar de edades", desStandard);
         return map;
+    }
+
+    public List<Map> getAllClient(){
+
+        List<Client> clients = clientService.getAllClient();
+        List<Map> listClient = new LinkedList<>();
+        for (Client client: clients){
+            Map map = new LinkedHashMap();
+            map.put("Nombre", client.getName());
+            map.put("Apellido", client.getLastName());
+            map.put("Edad", client.getAge());
+            map.put("Fecha de nacimiento", getDateFormat(client.getBirthday()));
+            map.put("Fecha probable de muerte", getDateDie(client.getBirthday()));
+            listClient.add(map);
+        }
+        return listClient;
     }
 }

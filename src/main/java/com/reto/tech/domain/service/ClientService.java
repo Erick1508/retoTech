@@ -18,7 +18,7 @@ public class ClientService {
     }
 
     public void saveClient(Client client){
-        logger.info("Se cliente {} nacido en {}",
+        logger.info("Se crea el cliente {} nacido en {}",
                 client.getName(),
                 client.getBirthday());
         try {
